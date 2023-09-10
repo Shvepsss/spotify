@@ -2,8 +2,16 @@ import { Text, useSx, View, H1, P, Row, A } from 'dripsy'
 import { TextLink } from 'solito/link'
 import { MotiLink } from 'solito/moti'
 
+import { Button } from 'app/shared/components/ui'
+import { useNavigation } from 'app/shared/hooks'
+import { APP_URL } from 'app/shared/constants'
+
 export function HomeScreen() {
   const sx = useSx()
+  const navigation = useNavigation()
+  const redirectToUser = (userId: string) => {
+    navigation.push(APP_URL.user.replace(':id', userId))
+  }
 
   return (
     <View
@@ -42,6 +50,9 @@ export function HomeScreen() {
         >
           Regular Link
         </TextLink>
+        <Button onPress={() => redirectToUser('Nsa')}>
+          <P>Regular Link Test</P>
+        </Button>
         <View sx={{ width: 32 }} />
         <MotiLink
           href="/user/fernando"

@@ -21,7 +21,6 @@ export function UserDetailScreen() {
       <Button onPress={redirectToHome}>
         <Text>Go Home</Text>
       </Button>
-      <TextLink href="/">👈 Go Home</TextLink>
     </View>
   )
 }

@@ -8,7 +8,6 @@ const LINE_HEIGHT_MULTIPLIER = 1.2
 const LINE_HEIGHT = FONT_SIZE * LINE_HEIGHT_MULTIPLIER
 const theme: MD3Theme = {
   ...DefaultTheme,
-  // Specify custom property
   colors: {
     ...DefaultTheme.colors,
     primary: '#1ED760',
@@ -17,7 +16,6 @@ const theme: MD3Theme = {
     surfaceDisabled: '#777777',
     secondary: '#FFFFFF',
   },
-
   fonts: {
     ...DefaultTheme.fonts,
     headlineLarge: {
@@ -35,15 +33,13 @@ const theme: MD3Theme = {
       lineHeight: LINE_HEIGHT,
     },
     bodySmall: {
-      ...DefaultTheme.fonts.bodyMedium,
+      ...DefaultTheme.fonts.bodySmall,
       fontSize: FONT_SIZE,
       fontWeight: '500',
       fontStyle: 'normal',
       lineHeight: LINE_HEIGHT,
     },
   },
-
-  // Specify custom property in nested object
 }
 
 export const ThemeProvider = ({ children }: { children: JSX.Element }) => {

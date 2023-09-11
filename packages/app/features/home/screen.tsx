@@ -86,7 +86,6 @@ export function HomeScreen() {
         <Button
           onPress={() => redirectToUser('Nsa')}
           style={[
-            // dynamicStyles.button,
             dynamicStyles.wrapper,
             { backgroundColor: 'white' },
           ]}

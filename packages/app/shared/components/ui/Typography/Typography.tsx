@@ -1,4 +1,4 @@
-import { Text, MD3Theme } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 import { useDynamicStyles } from 'app/shared/hooks'
 type TypographyProps = {
   children: string

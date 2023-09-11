@@ -2916,12 +2916,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-native-vector-icons@npm:^6.4.14":
+  version: 6.4.14
+  resolution: "@types/react-native-vector-icons@npm:6.4.14"
+  dependencies:
+    "@types/react": "*"
+    "@types/react-native": ^0.70
+  checksum: d2c597824cdae52aad1c8fae681491bb55bf5bcb9c3bd8050439b0a3f03ff7dfda63f7e696b0d8364d8413aeee8fd954554504a8829d87164eeee79d3aa34d45
+  languageName: node
+  linkType: hard
+
 "@types/react-native@npm:^0.69.5, @types/react-native@npm:~0.69.1":
   version: 0.69.18
   resolution: "@types/react-native@npm:0.69.18"
   dependencies:
     "@types/react": "*"
   checksum: 537a4a171e87afe1b218677fbfb6de6de10e878a4bf8cd6e18fcfd7e8f58b17a14b376be9df468e31272503c1711fb4144f42e192c9e0b92d36aba4346438944
+  languageName: node
+  linkType: hard
+
+"@types/react-native@npm:^0.70":
+  version: 0.70.14
+  resolution: "@types/react-native@npm:0.70.14"
+  dependencies:
+    "@types/react": "*"
+  checksum: 6df79ca70fe0643229dc23ad5121b4bdc80347a10ea8b352e89a97dda6e6f234c5a035e1d88debd3452f91964b95e7cc9a157105c9e09d93cadd28fd079394ba
   languageName: node
   linkType: hard
 
@@ -3286,6 +3305,7 @@ __metadata:
   dependencies:
     "@react-navigation/native": ^6.0.11
     "@react-navigation/native-stack": ^6.5.0
+    "@types/react-native-vector-icons": ^6.4.14
     dripsy: ^3.6.0
     moti: latest
     react-native-paper: ^5.10.4

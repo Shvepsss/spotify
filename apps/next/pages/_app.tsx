@@ -6,6 +6,9 @@ import Head from 'next/head'
 import React from 'react'
 import type { SolitoAppProps } from 'solito'
 
+// @ts-expect-error
+import icons from 'react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'
+
 function MyApp({ Component, pageProps }: SolitoAppProps) {
   return (
     <>
@@ -17,6 +20,12 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <style global type="text/css">{`
+        @font-face {
+          font-family: 'MaterialCommunityIcons';
+          src: url(${icons}) format('truetype');
+        }
+      `}</style>
       <Provider>
         <Component {...pageProps} />
       </Provider>

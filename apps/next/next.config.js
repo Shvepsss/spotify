@@ -1,5 +1,5 @@
 const { withExpo } = require('@expo/next-adapter')
-
+const path = require('path')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // reanimated (and thus, Moti) doesn't work with strict mode currently...
@@ -8,6 +8,30 @@ const nextConfig = {
   // https://github.com/nandorojo/moti/issues/224
   // once that gets fixed, set this back to true
   reactStrictMode: false,
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      'react-native$': 'react-native-web',
+    }
+    config.resolve.extensions = [
+      '.web.js',
+      '.web.jsx',
+      '.web.ts',
+      '.web.tsx',
+      ...config.resolve.extensions,
+    ]
+
+    config.module.rules.push({
+      test: /\.ttf$/,
+      loader: 'url-loader', // or directly file-loader
+      include: path.resolve(
+        __dirname,
+        '../../node_modules/react-native-vector-icons'
+      ),
+    })
+
+    return config
+  },
   transpilePackages: [
     'react-native',
     'react-native-web',
@@ -19,6 +43,9 @@ const nextConfig = {
     'react-native-reanimated',
     '@expo/html-elements',
     'react-native-gesture-handler',
+    'react-native-paper',
+    'react-native-vector-icons',
+    'react-native-safe-area-context',
   ],
 }
 

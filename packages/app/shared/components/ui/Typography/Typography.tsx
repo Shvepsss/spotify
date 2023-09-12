@@ -6,9 +6,15 @@ type TypographyProps = {
   children: string
   variant: TypographyVariants
   color: MD3Colors
+  numberOfLines?: number
 }
 
-export const Typography = ({ children, variant, color }: TypographyProps) => {
+export const Typography = ({
+  children,
+  variant,
+  color,
+  numberOfLines,
+}: TypographyProps) => {
   const dynamicStyles = useDynamicStyles((theme) => ({
     colorStyle: {
       color: theme.colors[color],
@@ -19,7 +25,7 @@ export const Typography = ({ children, variant, color }: TypographyProps) => {
     <Text
       variant={variant}
       style={[dynamicStyles.colorStyle]}
-      numberOfLines={1}
+      numberOfLines={numberOfLines}
     >
       {children}
     </Text>

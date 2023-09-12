@@ -11,11 +11,7 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      // Transform all direct react-native imports to react-native-web
-      // 'react-native-linear-gradient': 'react-native-web-linear-gradient',
-      // 'moti/skeleton': 'moti/skeleton/react-native-linear-gradient',
       'react-native$': 'react-native-web',
-      // '@react-spring/native': '@react-spring/web',
     }
     config.resolve.extensions = [
       '.web.js',

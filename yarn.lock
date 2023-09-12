@@ -3290,6 +3290,8 @@ __metadata:
     moti: latest
     react-native-paper: ^5.10.4
     solito: 3.0.0
+  peerDependencies:
+    react-native-vector-icons: ^10.0.0
   languageName: unknown
   linkType: soft
 

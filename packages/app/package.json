@@ -10,5 +10,8 @@
     "react-native-paper": "^5.10.4",
     "solito": "3.0.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "peerDependencies": {
+    "react-native-vector-icons": "^10.0.0"
+  }
 }

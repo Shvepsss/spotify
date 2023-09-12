@@ -9,15 +9,15 @@ import {
 import { Button, Typography } from 'app/shared/components/ui'
 import { APP_URL } from 'app/shared/constants'
 
+const BUTTON_SIZE = 100
 const dynamicStylesInput = getDynamicStylesInput((theme) => {
   return {
     wrapper: {
       backgroundColor: theme.colors.error,
     },
-
     button: {
-      height: 100,
-      width: 100,
+      height: BUTTON_SIZE,
+      width: BUTTON_SIZE,
     },
   }
 })
@@ -85,10 +85,7 @@ export function HomeScreen() {
         </TextLink>
         <Button
           onPress={() => redirectToUser('Nsa')}
-          style={[
-            dynamicStyles.wrapper,
-            { backgroundColor: 'white' },
-          ]}
+          style={[dynamicStyles.wrapper, { backgroundColor: 'white' }]}
         >
           <Typography color="primary" variant="headlineLarge">
             Regular Link Test

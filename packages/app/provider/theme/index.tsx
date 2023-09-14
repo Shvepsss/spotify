@@ -1,11 +1,9 @@
 import {
   PaperProvider,
   MD3DarkTheme as DefaultTheme,
-  MD3Theme,
-  MD3TypescaleKey,
   configureFonts,
 } from 'react-native-paper'
-import { MD3Colors, TypographyVariants } from './types'
+import { MD3Colors, MD3Theme } from './types'
 import { getFontSizeProps } from './utils'
 export * from './types'
 
@@ -17,9 +15,7 @@ const customColors: { [colorName in MD3Colors]: string } = {
   secondary: '#FFFFFF',
 }
 
-const typographyVariants: {
-  [variant in TypographyVariants]: MD3Theme['fonts'][MD3TypescaleKey]
-} = {
+const typographyVariants: MD3Theme['fonts'] = {
   headlineLarge: {
     ...DefaultTheme.fonts.headlineLarge,
     ...getFontSizeProps(90),

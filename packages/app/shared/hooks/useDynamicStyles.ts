@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from 'react-native'
-import { useTheme, MD3Theme } from 'react-native-paper'
+import { MD3Theme } from 'app/provider/theme'
+import { useTheme } from './useTheme'
 
 type Styles = ViewStyle | TextStyle | ImageStyle
 

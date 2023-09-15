@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react'
-import { View, Animated } from 'react-native'
+import { Animated } from 'react-native'
 import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
+import { View } from '../index'
 
+const EQUILIZER_AREA_HEIGHT = 10
+const BAR_WIDTH = 2
+const BAR_MAX_HEIGHT = 10
+const TIME_FROM_BOTTOM_TO_TOP = 350
+const TIME_FROM_TOP_TO_BOTTOM = 350
 export const dynamicStylesInput = getDynamicStylesInput((theme) => {
   return {
     container: {
@@ -12,20 +18,36 @@ export const dynamicStylesInput = getDynamicStylesInput((theme) => {
     equalizer: {
       flexDirection: 'row',
       alignItems: 'flex-end',
-      height: 10,
+      height: EQUILIZER_AREA_HEIGHT,
     },
     bar: {
-      width: 2,
+      width: BAR_WIDTH,
       marginRight: 2,
       backgroundColor: theme.colors.primary,
     },
-    button: {
-      marginTop: 20,
-      backgroundColor: 'lightblue',
-      padding: 10,
-    },
   }
 })
+
+const runAnimation = (value: Animated.AnimatedValue, index: number) => {
+  const animation = Animated.loop(
+    Animated.sequence([
+      Animated.timing(value, {
+        toValue: 1,
+        duration: TIME_FROM_BOTTOM_TO_TOP,
+        useNativeDriver: true,
+      }),
+      Animated.timing(value, {
+        toValue: 0,
+        duration: TIME_FROM_TOP_TO_BOTTOM,
+        useNativeDriver: true,
+      }),
+    ])
+  )
+
+  animation.start()
+
+  return () => animation.reset()
+}
 
 export const Equalizer = ({ isPlaying }) => {
   const dynamicStyles = useDynamicStyles(dynamicStylesInput)
@@ -33,28 +55,6 @@ export const Equalizer = ({ isPlaying }) => {
     { length: 3 },
     (_, i) => new Animated.Value(i * 0.1)
   )
-
-  const runAnimation = (value, index) => {
-    const animation = Animated.loop(
-      Animated.sequence([
-        Animated.timing(value, {
-          toValue: 3,
-          duration: 350,
-          useNativeDriver: false,
-        }),
-        Animated.timing(value, {
-          toValue: 0,
-          duration: 350,
-          useNativeDriver: false,
-        }),
-      ])
-    )
-
-    animation.start()
-
-    return () => animation.reset()
-  }
-
   useEffect(() => {
     if (isPlaying) {
       animationValues.forEach((value, i) => {
@@ -63,32 +63,31 @@ export const Equalizer = ({ isPlaying }) => {
       animationValues.forEach((value, index) => {
         runAnimation(value, index)
       })
-      return () => {
-        animationValues.forEach((value) => {
-          Animated.timing(value, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: false,
-          })
-        })
-      }
+    } else {
+      animationValues.forEach((value) => {
+        value.setValue(0)
+      })
     }
   }, [isPlaying])
 
-  const bars = animationValues.map((value, index) => (
-    <Animated.View
-      key={index}
-      style={[
-        dynamicStyles.bar,
-        {
-          height: value.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['1px', '4px'],
-          }),
-        },
-      ]}
-    />
-  ))
+  const bars = React.useMemo(
+    () =>
+      animationValues.map((value, index) => (
+        <Animated.View
+          key={index}
+          style={[
+            dynamicStyles.bar,
+            {
+              height: value.interpolate({
+                inputRange: [0, 1],
+                outputRange: [1, BAR_MAX_HEIGHT],
+              }),
+            },
+          ]}
+        />
+      )),
+    [animationValues, dynamicStyles.bar]
+  )
 
   return (
     <View style={dynamicStyles.container}>

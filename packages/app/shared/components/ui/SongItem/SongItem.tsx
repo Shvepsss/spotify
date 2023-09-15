@@ -1,27 +1,34 @@
-import { View, Text } from 'dripsy'
-import { Typography } from '../Typography'
-import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
-import { ListItem, Image } from '../index'
 import { Pressable } from 'react-native'
-import { GestureResponderEvent } from 'react-native'
-import { Equalizer } from '../Equilizer'
-import { IconLocal } from '../IconLocal'
+import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
+import { SPOTIFY_SONGS_STATUSES } from 'app/shared/constants/spotify'
+import {
+  ListItem,
+  Image,
+  View,
+  Typography,
+  Equalizer,
+  IconLocal,
+} from '../index'
 
 const IMAGE_SIZE = 47
 const P_HORIZONTAL = 17
-const P_VARTICAL = 8
+const P_VERTICAL = 8
+const STATUS_ICON_SIZE = 12
+const DOT_SYMBOL = '\u25CF'
 
 type SongItemProps = {
   id: string
   name: string
   author: string
-  status: string
-  coverImageUrl: string
+  status: (typeof SPOTIFY_SONGS_STATUSES)[keyof typeof SPOTIFY_SONGS_STATUSES]
+  withCover: boolean
+  coverImageUrl?: string
   album: string
-  onPress: (event: GestureResponderEvent) => void
-  onMenuPress: () => void
+  onPress: () => void
+  onMenuPress?: () => void
   isSelected: boolean
   isPlaying: boolean
+  rightComponent: React.ReactNode
 }
 const dynamicStylesInput = getDynamicStylesInput((theme) => ({
   songItemContainer: {
@@ -29,9 +36,9 @@ const dynamicStylesInput = getDynamicStylesInput((theme) => ({
     backgroundColor: theme.colors.background,
   },
   songInfoContainer: {
-    paddingRight: 17,
-    paddingHorizontal: P_HORIZONTAL,
-    paddingVertical: P_VARTICAL,
+    paddingRight: P_HORIZONTAL,
+    paddingLeft: P_HORIZONTAL,
+    paddingVertical: P_VERTICAL,
     flex: 1,
   },
   songImage: {
@@ -59,9 +66,11 @@ export const SongItem = ({
   isPlaying,
   onPress,
   onMenuPress,
+  rightComponent,
+  withCover,
 }: SongItemProps) => {
   const dynamicStyles = useDynamicStyles(dynamicStylesInput)
-
+  const shouldShowEqualizer = isPlaying || isSelected
   return (
     <View style={dynamicStyles.songItemContainer}>
       <ListItem
@@ -69,9 +78,7 @@ export const SongItem = ({
         style={[dynamicStyles.songInfoContainer]}
         title={
           <View style={dynamicStyles.songTitle}>
-            {isPlaying || isSelected ? (
-              <Equalizer isPlaying={isPlaying} />
-            ) : null}
+            {shouldShowEqualizer ? <Equalizer isPlaying={isPlaying} /> : null}
             <Typography
               variant="bodyMedium"
               color={isSelected ? 'primary' : 'secondary'}
@@ -80,31 +87,32 @@ export const SongItem = ({
             </Typography>
           </View>
         }
-        left={() => (
-          <Image
-            alt="Album"
-            source={{ uri: coverImageUrl }}
-            style={dynamicStyles.songImage}
-          />
-        )}
+        left={() =>
+          withCover ? (
+            <Image
+              alt="Album"
+              source={{ uri: coverImageUrl }}
+              style={dynamicStyles.songImage}
+            />
+          ) : null
+        }
         description={
           <Typography variant="bodySmall" color="surfaceDisabled">
-            {status === 'downloaded' ? (
-              <IconLocal size={12} iconName="downloaded" color="primary" />
+            {status === SPOTIFY_SONGS_STATUSES.downloaded ? (
+              <IconLocal
+                size={STATUS_ICON_SIZE}
+                iconName="downloaded"
+                color="primary"
+              />
             ) : null}
             {album}
-            {'\u25CF'}
+            {DOT_SYMBOL}
             {author}
           </Typography>
         }
         right={() => (
-          <Pressable
-            onPress={() => {
-              onMenuPress()
-            }}
-            style={dynamicStyles.menuButton}
-          >
-            <IconLocal iconName="menu" size={27} color="surfaceDisabled" />
+          <Pressable onPress={onMenuPress} style={dynamicStyles.menuButton}>
+            {rightComponent}
           </Pressable>
         )}
       />

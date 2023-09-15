@@ -1,9 +1,9 @@
-import { MD3Theme, Text } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 import { useDynamicStyles } from 'app/shared/hooks'
 import { TypographyVariants, MD3Colors } from 'app/provider/theme'
 
 type TypographyProps = {
-  children: any
+  children: React.ReactNode
   variant: TypographyVariants
   color: MD3Colors
   numberOfLines?: number

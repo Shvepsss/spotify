@@ -18,19 +18,19 @@ const customColors: { [colorName in MD3Colors]: string } = {
 const typographyVariants: MD3Theme['fonts'] = {
   headlineLarge: {
     ...DefaultTheme.fonts.headlineLarge,
-    ...getFontSizeProps(90),
+    ...getFontSizeProps(24),
     fontStyle: 'normal',
     fontWeight: 'bold',
   },
   bodyMedium: {
     ...DefaultTheme.fonts.bodyMedium,
-    ...getFontSizeProps(90),
+    ...getFontSizeProps(15),
     fontStyle: 'normal',
     fontWeight: '600',
   },
   bodySmall: {
     ...DefaultTheme.fonts.bodySmall,
-    ...getFontSizeProps(90),
+    ...getFontSizeProps(13),
     fontWeight: '500',
     fontStyle: 'normal',
   },

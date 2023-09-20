@@ -1,4 +1,4 @@
 export const SPOTIFY_SONGS_STATUSES = {
-  downloade: 'downloade',
+  download: 'download',
   downloaded: 'downloaded',
 }

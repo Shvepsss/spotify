@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
 import { Animated } from 'react-native'
+import React, { useEffect } from 'react'
 import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
-import { View } from '../index'
+import { View } from '../View'
 
 const EQUILIZER_AREA_HEIGHT = 10
 const BAR_WIDTH = 2

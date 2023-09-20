@@ -1,14 +1,26 @@
 import { useState } from 'react'
 import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
-import { SongItem, View, IconLocal } from 'app/shared/components/ui'
+import {
+  SongItem,
+  View,
+  PlayerCollapsed,
+  IconButton,
+} from 'app/shared/components/ui'
 
 const WRAPPER_WIDTH = 300
-const MENU_ICON_SIZE = 27
+const ICON_SIZE = 27
+const ICON_MARGIN = 5
 const dynamicStylesInput = getDynamicStylesInput((theme) => {
   return {
     wrapper: {
       backgroundColor: theme.colors.background,
       width: WRAPPER_WIDTH,
+    },
+    iconButton: {
+      margin: ICON_MARGIN,
+    },
+    buttonsContainer: {
+      flexDirection: 'row',
     },
   }
 })
@@ -46,8 +58,11 @@ export function HomeScreen() {
   const dynamicStyles = useDynamicStyles(dynamicStylesInput)
   const [selectedSong, setSelectedSong] = useState<string>()
   const [playingSongId, setPlayingSongId] = useState<string | null>(null)
+  const isPlaying = (songId: string) => {
+    return songId === playingSongId
+  }
 
-  const onSongPress = (songId: string) => {
+  const playHandler = (songId: string) => {
     if (songId === playingSongId) {
       setPlayingSongId(null)
       return
@@ -55,24 +70,48 @@ export function HomeScreen() {
     setSelectedSong(songId)
     setPlayingSongId(songId)
   }
+  const onSongPressHandler = (songId) => {
+    console.log(`${songId}`)
+  }
 
   return (
     <View style={dynamicStyles.wrapper}>
       {songsArr.map((song) => (
-        <SongItem
+        <PlayerCollapsed
+          onPressElement={() => onSongPressHandler(song.id)}
           key={song.id}
-          withCover={false}
-          rightComponent={
-            <IconLocal
-              iconName="menu"
-              size={MENU_ICON_SIZE}
-              color="surfaceDisabled"
-            />
-          }
+          withCover={true}
           {...song}
           isSelected={song.id === selectedSong}
           isPlaying={song.id === playingSongId}
-          onPress={() => onSongPress(song.id)}
+          rightComponent={
+            <View style={dynamicStyles.buttonsContainer}>
+              <IconButton
+                iconName="monitor"
+                size={ICON_SIZE}
+                color="secondary"
+                onPress={() => onSongPressHandler(song.id)}
+                style={dynamicStyles.iconButton}
+              />
+              {isPlaying(song.id) ? (
+                <IconButton
+                  iconName="pause"
+                  size={ICON_SIZE}
+                  color="secondary"
+                  onPress={() => playHandler(song.id)}
+                  style={dynamicStyles.iconButton}
+                />
+              ) : (
+                <IconButton
+                  iconName="play"
+                  size={ICON_SIZE}
+                  color="primary"
+                  onPress={() => playHandler(song.id)}
+                  style={dynamicStyles.iconButton}
+                />
+              )}
+            </View>
+          }
         />
       ))}
     </View>

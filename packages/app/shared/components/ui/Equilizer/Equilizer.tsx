@@ -6,8 +6,12 @@ import { View } from '../View'
 const EQUILIZER_AREA_HEIGHT = 10
 const BAR_WIDTH = 2
 const BAR_MAX_HEIGHT = 10
-const TIME_FROM_BOTTOM_TO_TOP = 350
-const TIME_FROM_TOP_TO_BOTTOM = 350
+const TRANSITION_TIME = 350
+
+type EqualizerProps = {
+  isPlaying: boolean
+}
+
 export const dynamicStylesInput = getDynamicStylesInput((theme) => {
   return {
     container: {
@@ -33,12 +37,12 @@ const runAnimation = (value: Animated.AnimatedValue, index: number) => {
     Animated.sequence([
       Animated.timing(value, {
         toValue: 1,
-        duration: TIME_FROM_BOTTOM_TO_TOP,
+        duration: TRANSITION_TIME,
         useNativeDriver: true,
       }),
       Animated.timing(value, {
         toValue: 0,
-        duration: TIME_FROM_TOP_TO_BOTTOM,
+        duration: TRANSITION_TIME,
         useNativeDriver: true,
       }),
     ])
@@ -49,25 +53,34 @@ const runAnimation = (value: Animated.AnimatedValue, index: number) => {
   return () => animation.reset()
 }
 
-export const Equalizer = ({ isPlaying }) => {
+// eslint-disable-next-line react/display-name
+export const Equalizer = React.memo(({ isPlaying }: EqualizerProps) => {
   const dynamicStyles = useDynamicStyles(dynamicStylesInput)
-  const animationValues = Array.from(
-    { length: 3 },
-    (_, i) => new Animated.Value(i * 0.1)
+  const animationValues = React.useMemo(
+    () => Array.from({ length: 3 }, (_, i) => new Animated.Value(i * 0.1)),
+    []
   )
   useEffect(() => {
     if (isPlaying) {
-      animationValues.forEach((value, i) => {
-        value.setValue(0.1 * i)
-      })
+      console.log('huo', animationValues)
+
       animationValues.forEach((value, index) => {
+        value.setValue(0)
+
         runAnimation(value, index)
       })
     } else {
       animationValues.forEach((value) => {
-        value.setValue(0)
+        const animation = Animated.timing(value, {
+          toValue: 0,
+          duration: TRANSITION_TIME,
+          useNativeDriver: true,
+        })
+
+        animation.start()
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPlaying])
 
   const bars = React.useMemo(
@@ -94,4 +107,4 @@ export const Equalizer = ({ isPlaying }) => {
       <View style={dynamicStyles.equalizer}>{bars}</View>
     </View>
   )
-}
+})

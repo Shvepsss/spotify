@@ -1,19 +1,16 @@
-import { Pressable } from 'react-native'
-import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
+import React from 'react'
 import { SPOTIFY_SONGS_STATUSES } from 'app/shared/constants/spotify'
-import {
-  ListItem,
-  Image,
-  View,
-  Typography,
-  Equalizer,
-  IconLocal,
-} from '../index'
+import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
+import { View } from '../View'
+import { Image } from '../Image'
+import { Typography } from '../Typography'
+import { ListItem } from '../ListItem'
+import { Equalizer } from '../Equilizer'
+import { IconLocal } from '../IconLocal'
 
 const IMAGE_SIZE = 47
-const P_HORIZONTAL = 17
-const P_VERTICAL = 8
 const STATUS_ICON_SIZE = 12
+const RESET_DIMENSION = 0
 const DOT_SYMBOL = '\u25CF'
 
 type SongItemProps = {
@@ -23,23 +20,17 @@ type SongItemProps = {
   status: (typeof SPOTIFY_SONGS_STATUSES)[keyof typeof SPOTIFY_SONGS_STATUSES]
   withCover: boolean
   coverImageUrl?: string
-  album: string
-  onPress: () => void
-  onMenuPress?: () => void
+  album?: string
+  onPressElement?: () => void
   isSelected: boolean
   isPlaying: boolean
   rightComponent: React.ReactNode
 }
 const dynamicStylesInput = getDynamicStylesInput((theme) => ({
-  songItemContainer: {
-    flexDirection: 'row',
-    backgroundColor: theme.colors.background,
-  },
-  songInfoContainer: {
-    paddingRight: P_HORIZONTAL,
-    paddingLeft: P_HORIZONTAL,
-    paddingVertical: P_VERTICAL,
-    flex: 1,
+  listIem: {
+    paddingTop: RESET_DIMENSION,
+    paddingBottom: RESET_DIMENSION,
+    paddingRight: RESET_DIMENSION,
   },
   songImage: {
     width: IMAGE_SIZE,
@@ -48,6 +39,7 @@ const dynamicStylesInput = getDynamicStylesInput((theme) => ({
   menuButton: {
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
   },
   songTitle: {
     flexDirection: 'row',
@@ -55,27 +47,29 @@ const dynamicStylesInput = getDynamicStylesInput((theme) => ({
   },
 }))
 
-export const SongItem = ({
-  name,
-  coverImageUrl,
-  author,
-  status,
-  album,
-  id,
-  isSelected,
-  isPlaying,
-  onPress,
-  onMenuPress,
-  rightComponent,
-  withCover,
-}: SongItemProps) => {
-  const dynamicStyles = useDynamicStyles(dynamicStylesInput)
-  const shouldShowEqualizer = isPlaying || isSelected
-  return (
-    <View style={dynamicStyles.songItemContainer}>
+// eslint-disable-next-line react/display-name
+export const SongItem = React.memo(
+  ({
+    name,
+    coverImageUrl,
+    author,
+    status,
+    album,
+    id,
+    isSelected,
+    isPlaying,
+    onPressElement,
+    rightComponent,
+    withCover,
+  }: SongItemProps) => {
+    const dynamicStyles = useDynamicStyles(dynamicStylesInput)
+    const shouldShowEqualizer = isPlaying || isSelected
+    const description = [album, author].filter(Boolean).join(` ${DOT_SYMBOL} `)
+
+    return (
       <ListItem
-        onPress={onPress}
-        style={[dynamicStyles.songInfoContainer]}
+        onPress={onPressElement}
+        style={dynamicStyles.listIem}
         title={
           <View style={dynamicStyles.songTitle}>
             {shouldShowEqualizer ? <Equalizer isPlaying={isPlaying} /> : null}
@@ -105,17 +99,13 @@ export const SongItem = ({
                 color="primary"
               />
             ) : null}
-            {album}
-            {DOT_SYMBOL}
-            {author}
+            {description}
           </Typography>
         }
         right={() => (
-          <Pressable onPress={onMenuPress} style={dynamicStyles.menuButton}>
-            {rightComponent}
-          </Pressable>
+          <View style={dynamicStyles.menuButton}>{rightComponent}</View>
         )}
       />
-    </View>
-  )
-}
+    )
+  }
+)

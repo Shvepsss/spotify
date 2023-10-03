@@ -3,10 +3,10 @@ import { useTheme } from 'app/shared/hooks/useTheme'
 import { ICON_NAMES } from 'app/shared/constants'
 import { MD3Colors } from 'app/provider/theme'
 
-type IconLocalProps = {
+export type IconLocalProps = {
   iconName: keyof typeof ICON_NAMES
   size: number
-  color?: MD3Colors
+  color: MD3Colors
 }
 export const IconLocal = ({ iconName, size, color }: IconLocalProps) => {
   const theme = useTheme()

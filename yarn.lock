@@ -2849,6 +2849,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/howler@npm:^2.2.9":
+  version: 2.2.9
+  resolution: "@types/howler@npm:2.2.9"
+  checksum: 5d1637b107ec837a7faf9b3018f6197d370e8b22e59089dd80123be8d6c7083e93e7124cd6f6bd0d0319bfb506254a6338e46bbabf7ab5a723994926e2a6ae7d
+  languageName: node
+  linkType: hard
+
 "@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0":
   version: 2.0.4
   resolution: "@types/istanbul-lib-coverage@npm:2.0.4"
@@ -3305,8 +3312,10 @@ __metadata:
   dependencies:
     "@react-navigation/native": ^6.0.11
     "@react-navigation/native-stack": ^6.5.0
+    "@types/howler": ^2.2.9
     "@types/react-native-vector-icons": ^6.4.14
     dripsy: ^3.6.0
+    howler: ^2.2.4
     moti: latest
     react-native-paper: ^5.10.4
     solito: 3.0.0
@@ -6511,6 +6520,13 @@ __metadata:
   dependencies:
     lru-cache: ^6.0.0
   checksum: 5af7a69581acb84206a7b8e009f4680c36396814e92c8a83973dfb3b87e44e44d1f7b8eaf3e4a953686482770ecb78406a4ce4666bfdfe447762434127871d8d
+  languageName: node
+  linkType: hard
+
+"howler@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "howler@npm:2.2.4"
+  checksum: 14ad7ed8825ac4439a63429d25f3ba6f44daca1d6df4ad6b04f33e342269b80db5608d9f1e6e980e2d47027c7ceba7811068eba7f56e8e75f2601086e07f0b73
   languageName: node
   linkType: hard
 

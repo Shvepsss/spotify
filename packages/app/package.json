@@ -6,6 +6,7 @@
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/native-stack": "^6.5.0",
     "dripsy": "^3.6.0",
+    "howler": "^2.2.4",
     "moti": "latest",
     "react-native-paper": "^5.10.4",
     "solito": "3.0.0"
@@ -15,6 +16,7 @@
     "react-native-vector-icons": "^10.0.0"
   },
   "devDependencies": {
+    "@types/howler": "^2.2.9",
     "@types/react-native-vector-icons": "^6.4.14"
   }
 }

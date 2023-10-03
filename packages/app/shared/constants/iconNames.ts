@@ -32,5 +32,5 @@ export const ICON_NAMES = {
   gridView: 'view-grid-outline',
   close: 'close',
   downloaded: 'download-circle',
-  downloade: 'download-circle-outline',
+  download: 'check-circle',
 }

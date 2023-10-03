@@ -3,7 +3,7 @@ import { IconLocal, IconLocalProps } from '../IconLocal'
 import { ViewProps } from '../View'
 type IconButtonProps = Pick<ViewProps, 'style'> &
   IconLocalProps & {
-    onPress: () => void
+    onPress?: () => void
   }
 export const IconButton = ({
   iconName,
@@ -13,7 +13,7 @@ export const IconButton = ({
   style,
 }: IconButtonProps) => {
   return (
-    <Pressable onPress={onPress} style={[style]}>
+    <Pressable onPress={onPress} style={style}>
       <IconLocal iconName={iconName} size={size} color={color} />
     </Pressable>
   )

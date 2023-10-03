@@ -1,3 +1,4 @@
+import React from 'react'
 import { SPOTIFY_SONGS_STATUSES } from 'app/shared/constants/spotify'
 import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
 import { View } from '../View'
@@ -46,62 +47,65 @@ const dynamicStylesInput = getDynamicStylesInput((theme) => ({
   },
 }))
 
-export const SongItem = ({
-  name,
-  coverImageUrl,
-  author,
-  status,
-  album,
-  id,
-  isSelected,
-  isPlaying,
-  onPressElement,
-  rightComponent,
-  withCover,
-}: SongItemProps) => {
-  const dynamicStyles = useDynamicStyles(dynamicStylesInput)
-  const shouldShowEqualizer = isPlaying || isSelected
-  const description = [album, author].filter(Boolean).join(` ${DOT_SYMBOL} `)
+// eslint-disable-next-line react/display-name
+export const SongItem = React.memo(
+  ({
+    name,
+    coverImageUrl,
+    author,
+    status,
+    album,
+    id,
+    isSelected,
+    isPlaying,
+    onPressElement,
+    rightComponent,
+    withCover,
+  }: SongItemProps) => {
+    const dynamicStyles = useDynamicStyles(dynamicStylesInput)
+    const shouldShowEqualizer = isPlaying || isSelected
+    const description = [album, author].filter(Boolean).join(` ${DOT_SYMBOL} `)
 
-  return (
-    <ListItem
-      onPress={onPressElement}
-      style={dynamicStyles.listIem}
-      title={
-        <View style={dynamicStyles.songTitle}>
-          {shouldShowEqualizer ? <Equalizer isPlaying={isPlaying} /> : null}
-          <Typography
-            variant="bodyMedium"
-            color={isSelected ? 'primary' : 'secondary'}
-          >
-            {name}
-          </Typography>
-        </View>
-      }
-      left={() =>
-        withCover ? (
-          <Image
-            alt="Album"
-            source={{ uri: coverImageUrl }}
-            style={dynamicStyles.songImage}
-          />
-        ) : null
-      }
-      description={
-        <Typography variant="bodySmall" color="surfaceDisabled">
-          {status === SPOTIFY_SONGS_STATUSES.downloaded ? (
-            <IconLocal
-              size={STATUS_ICON_SIZE}
-              iconName="downloaded"
-              color="primary"
+    return (
+      <ListItem
+        onPress={onPressElement}
+        style={dynamicStyles.listIem}
+        title={
+          <View style={dynamicStyles.songTitle}>
+            {shouldShowEqualizer ? <Equalizer isPlaying={isPlaying} /> : null}
+            <Typography
+              variant="bodyMedium"
+              color={isSelected ? 'primary' : 'secondary'}
+            >
+              {name}
+            </Typography>
+          </View>
+        }
+        left={() =>
+          withCover ? (
+            <Image
+              alt="Album"
+              source={{ uri: coverImageUrl }}
+              style={dynamicStyles.songImage}
             />
-          ) : null}
-          {description}
-        </Typography>
-      }
-      right={() => (
-        <View style={dynamicStyles.menuButton}>{rightComponent}</View>
-      )}
-    />
-  )
-}
+          ) : null
+        }
+        description={
+          <Typography variant="bodySmall" color="surfaceDisabled">
+            {status === SPOTIFY_SONGS_STATUSES.downloaded ? (
+              <IconLocal
+                size={STATUS_ICON_SIZE}
+                iconName="downloaded"
+                color="primary"
+              />
+            ) : null}
+            {description}
+          </Typography>
+        }
+        right={() => (
+          <View style={dynamicStyles.menuButton}>{rightComponent}</View>
+        )}
+      />
+    )
+  }
+)

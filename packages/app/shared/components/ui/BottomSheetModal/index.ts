@@ -1,2 +1,2 @@
 export * from './BottomSheetModalProps'
-export * from './BottomsheetModal'
+export * from './BottomSheetModal'

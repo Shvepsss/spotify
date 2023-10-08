@@ -1,1 +1,1 @@
-export { Pressable } from 'react-native'
+export { Pressable, PressableProps } from 'react-native'

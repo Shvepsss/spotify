@@ -19,6 +19,7 @@ export type SongItemProps = {
   author: string
   status: SpotifySongStatus
   withCover: boolean
+  withStatus: boolean
   coverImageUrl?: string
   album?: string
   onPressElement?: () => void
@@ -61,6 +62,7 @@ export const SongItem = React.memo(
     onPressElement,
     rightComponent,
     withCover,
+    withStatus,
   }: SongItemProps) => {
     const dynamicStyles = useDynamicStyles(dynamicStylesInput)
     const shouldShowEqualizer = isSelected
@@ -92,7 +94,7 @@ export const SongItem = React.memo(
         }
         description={
           <Typography variant="bodySmall" color="surfaceDisabled">
-            {status === SPOTIFY_SONGS_STATUSES.downloaded ? (
+            {status === SPOTIFY_SONGS_STATUSES.downloaded && withStatus ? (
               <IconLocal
                 size={STATUS_ICON_SIZE}
                 iconName="downloaded"

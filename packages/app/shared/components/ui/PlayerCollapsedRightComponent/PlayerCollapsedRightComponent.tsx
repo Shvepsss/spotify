@@ -28,6 +28,7 @@ export const PlayerCollapsedRightComponent = ({
   onSongPressHandler,
 }: PlayerCollapsedRightComponentProps) => {
   const dynamicStyles = useDynamicStyles(dynamicStylesInput)
+  const iconName = isPlaying ? 'pause' : 'play'
   return (
     <View style={dynamicStyles.buttonsContainer}>
       <IconButton
@@ -37,23 +38,13 @@ export const PlayerCollapsedRightComponent = ({
         onPress={onSongPressHandler}
         style={dynamicStyles.iconButton}
       />
-      {isPlaying ? (
-        <IconButton
-          iconName="pause"
-          size={ICON_SIZE}
-          color="secondary"
-          onPress={togglePlay}
-          style={dynamicStyles.iconButton}
-        />
-      ) : (
-        <IconButton
-          iconName="play"
-          size={ICON_SIZE}
-          color="secondary"
-          onPress={togglePlay}
-          style={dynamicStyles.iconButton}
-        />
-      )}
+      <IconButton
+        iconName={iconName}
+        size={ICON_SIZE}
+        color="secondary"
+        onPress={togglePlay}
+        style={dynamicStyles.iconButton}
+      />
     </View>
   )
 }

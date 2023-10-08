@@ -1,6 +1,6 @@
 import React from 'react'
-import { ProgressBar as ProgressBarNative, useTheme } from 'react-native-paper'
-import { Pressable, GestureResponderEvent } from 'react-native'
+import { ProgressBar as NativeProgressBar, useTheme } from 'react-native-paper'
+import { Pressable, PressableProps } from '../Pressable'
 import { View } from '../View'
 import {
   PlaylistInfoItem,
@@ -8,12 +8,18 @@ import {
   useDynamicStyles,
   getDynamicStylesInput,
 } from 'app/shared/hooks'
+import { GestureResponderEvent } from 'react-native'
 
 type ProgressBarProps = {
   activeSong: PlaylistInfoItem
   songMeta: SongMeta
   progress: number
+  handleBarPress: (
+    e: PressableProps,
+    progressBarRef: React.RefObject<View>
+  ) => void
 }
+
 const BAR_RADIUS = 4
 const BAR_MARGIN = 9
 const dynamicStylesInput = getDynamicStylesInput((theme) => {
@@ -31,30 +37,17 @@ export const ProgressBar = ({
   activeSong,
   songMeta,
   progress,
+  handleBarPress,
 }: ProgressBarProps) => {
   const dynamicStyles = useDynamicStyles(dynamicStylesInput)
   const progressBarRef = React.useRef<View>(null)
   const theme = useTheme()
-
-  const handlePress = React.useCallback(
-    (e: GestureResponderEvent) => {
-      if (activeSong && songMeta) {
-        progressBarRef.current?.measure((_x, _y, progressBarWidth) => {
-          // locationX only exists in native, offsetX is for web
-          const locationX =
-            // @ts-expect-error
-            e.nativeEvent.locationX || e.nativeEvent.layerX || 0
-          const newPlaybackPositionRatio = locationX / progressBarWidth
-          const newSeconds = songMeta.duration * newPlaybackPositionRatio
-          activeSong.howl.seek(newSeconds, activeSong.soundId)
-        })
-      }
-    },
-    [activeSong, songMeta]
-  )
   return (
-    <Pressable onPress={handlePress} ref={progressBarRef}>
-      <ProgressBarNative
+    <Pressable
+      onPress={(e) => handleBarPress(e, progressBarRef)}
+      ref={progressBarRef}
+    >
+      <NativeProgressBar
         color={theme.colors.secondary}
         progress={progress}
         style={dynamicStyles.barStyle}

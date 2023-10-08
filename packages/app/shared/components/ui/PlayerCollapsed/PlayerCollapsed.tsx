@@ -7,7 +7,6 @@ import {
   View,
   Pressable,
   PlayerCollapsedRightComponent,
-  SpotifySong,
 } from 'app/shared/components/ui'
 import {
   useDynamicStyles,
@@ -17,6 +16,7 @@ import {
   PlaylistInfoItem,
   SongMeta,
 } from 'app/shared/hooks'
+import { SpotifySong } from 'app/shared/types/spotifySong'
 
 const P_HORIZONTAL = 17
 const P_TOP = 8
@@ -31,6 +31,10 @@ type PlayerCollapsedProps = SpotifySong & {
   activeSong: PlaylistInfoItem
   songMeta: SongMeta
   progress: number
+  handleBarPress: (
+    e: GestureResponderEvent,
+    progressBarRef: React.RefObject<View>
+  ) => void
 }
 const dynamicStylesInput = getDynamicStylesInput((theme) => {
   return {
@@ -65,6 +69,7 @@ export const PlayerCollapsed = ({
   activeSong,
   songMeta,
   progress,
+  handleBarPress,
 }: PlayerCollapsedProps) => {
   const dynamicStyles = useDynamicStyles(dynamicStylesInput)
   const theme = useTheme()
@@ -84,6 +89,7 @@ export const PlayerCollapsed = ({
         isPlaying={isPlaying}
         isSelected={false}
         withCover={withCover}
+        withStatus={false}
         rightComponent={
           <PlayerCollapsedRightComponent
             isPlaying={isPlaying}
@@ -104,11 +110,14 @@ export const PlayerCollapsed = ({
         onPressElement={onSongPressHandler}
       />
 
-      <ProgressBar
-        activeSong={activeSong}
-        songMeta={songMeta}
-        progress={progress}
-      />
+      {handleBarPress && (
+        <ProgressBar
+          activeSong={activeSong}
+          songMeta={songMeta}
+          progress={progress}
+          handleBarPress={handleBarPress}
+        />
+      )}
     </View>
   )
 }

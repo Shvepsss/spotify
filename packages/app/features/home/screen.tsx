@@ -9,10 +9,9 @@ import {
   View,
   Player,
   IconButton,
-  SpotifySong,
   BottomSheetModal,
 } from 'app/shared/components/ui'
-import { PlayerCollapsed } from '../PlayerCollapsed'
+import { PlayerCollapsed } from '../../shared/components/ui/PlayerCollapsed'
 
 const dynamicStylesInput = getDynamicStylesInput((theme) => {
   return {
@@ -71,14 +70,14 @@ export function HomeScreen() {
     playlistHistory,
     isLoop,
     setIsLoop,
+    handlePress,
+    togglePlay,
+    playPreviousSong,
+    playnextSong,
+    toggleShuffle,
+    toggleLoop,
+    isShuffle,
   } = usePlayer()
-
-  const togglePlay = useCallback(
-    (song: SpotifySong) => {
-      playNewSong(song)
-    },
-    [activeSong, toggleSongPlayer, playNewSong]
-  )
 
   function togglePlayerState() {
     setCollapsedPlayer(!collapsedPlayer)
@@ -100,6 +99,7 @@ export function HomeScreen() {
           onPressElement={() => togglePlay(song)}
           isSelected={activeSong?.data?.id === song.id}
           isPlaying={isPlaying}
+          withStatus={true}
           rightComponent={
             <IconButton
               color="secondary"
@@ -113,7 +113,6 @@ export function HomeScreen() {
       <BottomSheetModal
         snapPoints={[110, '100%']}
         open={true}
-        backgroundStyle={{ backgroundColor: 'red', height: '100%' }}
         onSpringStart={onSpringStart}
       >
         {activeSong && songMeta && (
@@ -127,7 +126,12 @@ export function HomeScreen() {
                 togglePlay={togglePlay}
                 isPlaying={isPlaying}
                 isLoop={isLoop}
-                setIsLoop={setIsLoop}
+                handleBarPress={handlePress}
+                playNextSong={playnextSong}
+                playPreviousSong={playPreviousSong}
+                isShuffle={isShuffle}
+                toggleLoop={toggleLoop}
+                toggleShuffle={toggleShuffle}
               />
             </View>
             <View
@@ -143,6 +147,7 @@ export function HomeScreen() {
                 withCover={true}
                 {...activeSong?.data}
                 togglePlay={togglePlay}
+                handleBarPress={handlePress}
               />
             </View>
           </>

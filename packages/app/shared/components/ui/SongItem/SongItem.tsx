@@ -1,5 +1,5 @@
 import React from 'react'
-import { SPOTIFY_SONGS_STATUSES } from 'app/shared/constants/spotify'
+import { SPOTIFY_SONGS_STATUSES, SpotifySongStatus } from 'app/shared/constants'
 import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
 import { View } from '../View'
 import { Image } from '../Image'
@@ -13,12 +13,13 @@ const STATUS_ICON_SIZE = 12
 const RESET_DIMENSION = 0
 const DOT_SYMBOL = '\u25CF'
 
-type SongItemProps = {
+export type SongItemProps = {
   id: string
   name: string
   author: string
-  status: (typeof SPOTIFY_SONGS_STATUSES)[keyof typeof SPOTIFY_SONGS_STATUSES]
+  status: SpotifySongStatus
   withCover: boolean
+  withStatus: boolean
   coverImageUrl?: string
   album?: string
   onPressElement?: () => void
@@ -61,9 +62,10 @@ export const SongItem = React.memo(
     onPressElement,
     rightComponent,
     withCover,
+    withStatus,
   }: SongItemProps) => {
     const dynamicStyles = useDynamicStyles(dynamicStylesInput)
-    const shouldShowEqualizer = isPlaying || isSelected
+    const shouldShowEqualizer = isSelected
     const description = [album, author].filter(Boolean).join(` ${DOT_SYMBOL} `)
 
     return (
@@ -92,7 +94,7 @@ export const SongItem = React.memo(
         }
         description={
           <Typography variant="bodySmall" color="surfaceDisabled">
-            {status === SPOTIFY_SONGS_STATUSES.downloaded ? (
+            {status === SPOTIFY_SONGS_STATUSES.downloaded && withStatus ? (
               <IconLocal
                 size={STATUS_ICON_SIZE}
                 iconName="downloaded"

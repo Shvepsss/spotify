@@ -1,14 +1,23 @@
-import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks'
-import { SongItem, View } from 'app/shared/components/ui'
-import { PlayerCollapsed } from '../PlayerCollapsed'
-
-const WRAPPER_WIDTH = 300
+import { useState, useCallback } from 'react'
+import {
+  useDynamicStyles,
+  getDynamicStylesInput,
+  usePlayer,
+} from 'app/shared/hooks'
+import {
+  SongItem,
+  View,
+  Player,
+  IconButton,
+  BottomSheetModal,
+} from 'app/shared/components/ui'
+import { PlayerCollapsed } from '../../shared/components/ui/PlayerCollapsed'
 
 const dynamicStylesInput = getDynamicStylesInput((theme) => {
   return {
     wrapper: {
       backgroundColor: theme.colors.background,
-      width: WRAPPER_WIDTH,
+      width: '100%',
     },
   }
 })
@@ -16,7 +25,7 @@ const dynamicStylesInput = getDynamicStylesInput((theme) => {
 const songsArr = [
   {
     id: '123',
-    name: 'Hello',
+    name: 'Hello 1',
     author: 'Adelle',
     album: '25',
     status: 'downloaded',
@@ -27,7 +36,7 @@ const songsArr = [
   },
   {
     id: '456',
-    name: 'Hello',
+    name: 'Hello 2',
     author: 'Adelle',
     album: '25',
     status: 'downloade',
@@ -38,7 +47,7 @@ const songsArr = [
   },
   {
     id: '758',
-    name: 'Hello',
+    name: 'Hello 3',
     author: 'Adelle',
     album: '25',
     status: 'downloaded',
@@ -50,12 +59,100 @@ const songsArr = [
 ]
 
 export function HomeScreen() {
+  const [collapsedPlayer, setCollapsedPlayer] = useState(true)
+  const {
+    playNewSong,
+    songMeta,
+    progress,
+    activeSong,
+    isPlaying,
+    toggleSongPlayer,
+    playlistHistory,
+    isLoop,
+    setIsLoop,
+    handlePress,
+    togglePlay,
+    playPreviousSong,
+    playnextSong,
+    toggleShuffle,
+    toggleLoop,
+    isShuffle,
+  } = usePlayer()
+
+  function togglePlayerState() {
+    setCollapsedPlayer(!collapsedPlayer)
+  }
+  const onSpringStart = (event) => {
+    if (event.type === 'SNAP') {
+      togglePlayerState()
+    }
+  }
+  const onMenuPress = () => {}
   const dynamicStyles = useDynamicStyles(dynamicStylesInput)
   return (
     <View style={dynamicStyles.wrapper}>
-      {songsArr.slice(0, 1).map((song) => (
-        <PlayerCollapsed key={song.id} withCover={true} {...song} />
+      {songsArr.map((song) => (
+        <SongItem
+          key={song.id}
+          {...song}
+          withCover={true}
+          onPressElement={() => togglePlay(song)}
+          isSelected={activeSong?.data?.id === song.id}
+          isPlaying={isPlaying}
+          withStatus={true}
+          rightComponent={
+            <IconButton
+              color="secondary"
+              size={27}
+              iconName="menu"
+              onPress={onMenuPress}
+            />
+          }
+        />
       ))}
+      <BottomSheetModal
+        snapPoints={[110, '100%']}
+        open={true}
+        onSpringStart={onSpringStart}
+      >
+        {activeSong && songMeta && (
+          <>
+            <View style={{ display: !collapsedPlayer ? 'flex' : 'none' }}>
+              <Player
+                spotifySongs={songsArr}
+                activeSong={activeSong}
+                progress={progress}
+                songMeta={songMeta}
+                togglePlay={togglePlay}
+                isPlaying={isPlaying}
+                isLoop={isLoop}
+                handleBarPress={handlePress}
+                playNextSong={playnextSong}
+                playPreviousSong={playPreviousSong}
+                isShuffle={isShuffle}
+                toggleLoop={toggleLoop}
+                toggleShuffle={toggleShuffle}
+              />
+            </View>
+            <View
+              style={{
+                display: collapsedPlayer && activeSong ? 'flex' : 'none',
+              }}
+            >
+              <PlayerCollapsed
+                songMeta={songMeta}
+                activeSong={activeSong}
+                progress={progress}
+                isPlaying={isPlaying}
+                withCover={true}
+                {...activeSong?.data}
+                togglePlay={togglePlay}
+                handleBarPress={handlePress}
+              />
+            </View>
+          </>
+        )}
+      </BottomSheetModal>
     </View>
   )
 }

@@ -31,6 +31,6 @@ export const ICON_NAMES = {
   settings: 'cog-outline',
   gridView: 'view-grid-outline',
   close: 'close',
-  downloaded: 'download-circle',
-  downloade: 'download-circle-outline',
+  downloaded: 'check-circle',
+  download: 'download-circle',
 }

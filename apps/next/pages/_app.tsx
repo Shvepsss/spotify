@@ -5,7 +5,7 @@ import { Provider } from 'app/provider'
 import Head from 'next/head'
 import React from 'react'
 import type { SolitoAppProps } from 'solito'
-
+import 'react-spring-bottom-sheet/dist/style.css'
 // @ts-expect-error
 import icons from 'react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'
 

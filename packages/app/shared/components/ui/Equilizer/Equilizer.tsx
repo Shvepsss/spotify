@@ -62,8 +62,6 @@ export const Equalizer = React.memo(({ isPlaying }: EqualizerProps) => {
   )
   useEffect(() => {
     if (isPlaying) {
-      console.log('huo', animationValues)
-
       animationValues.forEach((value, index) => {
         value.setValue(0)
 

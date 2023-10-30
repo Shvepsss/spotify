@@ -20,8 +20,6 @@ import { SpotifySong } from 'app/shared/types/spotifySong'
 
 const P_HORIZONTAL = 17
 const P_TOP = 8
-const BAR_RADIUS = 4
-const BAR_MARGIN = 9
 const P_BOTTOM = 14
 
 type PlayerCollapsedProps = SpotifySong & {
@@ -38,12 +36,6 @@ type PlayerCollapsedProps = SpotifySong & {
 }
 const dynamicStylesInput = getDynamicStylesInput((theme) => {
   return {
-    barStyle: {
-      color: theme.colors.secondary,
-      height: 3,
-      borderRadius: BAR_RADIUS,
-      marginTop: BAR_MARGIN,
-    },
     songContainer: {
       paddingRight: P_HORIZONTAL,
       paddingLeft: P_HORIZONTAL,

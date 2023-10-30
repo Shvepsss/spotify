@@ -13,24 +13,26 @@ const nextConfig = {
       ...(config.resolve.alias || {}),
       'react-native$': 'react-native-web',
     }
-    config.resolve.extensions = [
+    ;(config.resolve.extensions = [
       '.web.js',
       '.web.jsx',
       '.web.ts',
       '.web.tsx',
       ...config.resolve.extensions,
-    ]
-
-    config.module.rules.push({
-      test: /\.ttf$/,
-      loader: 'url-loader', // or directly file-loader
-      include: path.resolve(
-        __dirname,
-        '../../node_modules/react-native-vector-icons'
-      ),
-    })
+    ]),
+      config.module.rules.push({
+        test: /\.ttf$/,
+        loader: 'url-loader', // or directly file-loader
+        include: path.resolve(
+          __dirname,
+          '../../node_modules/react-native-vector-icons'
+        ),
+      })
 
     return config
+  },
+  images: {
+    domains: ['t2.genius.com'],
   },
   transpilePackages: [
     'react-native',

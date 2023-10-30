@@ -85,11 +85,9 @@ export const SongItem = React.memo(
         }
         left={() =>
           withCover ? (
-            <Image
-              alt="Album"
-              source={{ uri: coverImageUrl }}
-              style={dynamicStyles.songImage}
-            />
+            coverImageUrl ? (
+              <Image alt="Album" src={coverImageUrl} width={100} height={100} />
+            ) : null
           ) : null
         }
         description={

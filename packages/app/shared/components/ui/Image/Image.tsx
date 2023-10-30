@@ -1,1 +1,1 @@
-export { Image, ImageProps } from 'react-native'
+export { SolitoImage as Image } from 'solito/image'

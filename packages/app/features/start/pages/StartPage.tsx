@@ -4,7 +4,6 @@ import {
   useTheme,
   useSpotifyAuth,
 } from 'app/shared/hooks'
-import { handler } from '../../../../../apps/next/pages/api'
 import { Button, Typography, View, Image } from 'app/shared/components/ui'
 
 const BUTTON_WIDTH = 337
@@ -49,23 +48,15 @@ export function StartPage() {
       margin: 15,
     },
   }))
-  //will continue this functions lately
-  const logIn = () => {}
-  const authentication = () => {}
-  const signIN = () => {}
-  async function ebanayaZalupa() {
-    await fetch('api/spotify')
-  }
+
   return (
     <View style={dynamicStyles.pageContainer}>
       <View style={dynamicStyles.imageContainer}>
-        {/*
         <Image
-          source={require('.assets//Web_Photo_Editor.jpg')}
-          alt="logo"
+          src={require('./logo.webp')}
           style={dynamicStyles.imageStyle}
-
-  />*/}
+          alt="logo"
+        />
       </View>
       <View style={dynamicStyles.textContainer}>
         <Typography color="secondary" variant="headlineLarge">
@@ -76,51 +67,12 @@ export function StartPage() {
       </View>
       <View style={dynamicStyles.buttonContainer}>
         <Button
+          onPress={() => handleLogin()}
           style={dynamicStyles.mainButtonStyle}
           borderColor={theme.colors.primary}
           backgroundColor={theme.colors.primary}
-          onPress={() => handleLogin()}
         >
           <Typography color="background" variant="bodyMedium">
-            Sign up free
-          </Typography>
-        </Button>
-        <Button
-          style={dynamicStyles.mainButtonStyle}
-          borderColor={theme.colors.secondary}
-          backgroundColor={theme.colors.background}
-          onPress={() => authentication()}
-        >
-          <Typography color="secondary" variant="bodyMedium">
-            Continue with Google
-          </Typography>
-        </Button>
-        <Button
-          style={dynamicStyles.mainButtonStyle}
-          borderColor={theme.colors.secondary}
-          backgroundColor={theme.colors.background}
-          onPress={() => authentication()}
-        >
-          <Typography color="secondary" variant="bodyMedium">
-            Continue with facebook
-          </Typography>
-        </Button>
-        <Button
-          style={dynamicStyles.mainButtonStyle}
-          borderColor={theme.colors.secondary}
-          backgroundColor={theme.colors.background}
-          onPress={() => authentication()}
-        >
-          <Typography color="secondary" variant="bodyMedium">
-            Continue with Apple
-          </Typography>
-        </Button>
-        <Button
-          onPress={() => {
-            console.log('cheese')
-          }}
-        >
-          <Typography color="secondary" variant="headlineLarge">
             Log in
           </Typography>
         </Button>

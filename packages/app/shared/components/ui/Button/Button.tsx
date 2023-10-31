@@ -3,7 +3,6 @@ import {
   ButtonProps as NativeButtonProps,
 } from 'react-native-paper'
 import { ViewStyle } from 'react-native'
-import { ColorValue } from 'react-native'
 
 type ButtonProps = Pick<NativeButtonProps, 'children' | 'style'> &
   Pick<ViewStyle, 'borderColor' | 'backgroundColor'> & {

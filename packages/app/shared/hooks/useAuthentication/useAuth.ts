@@ -6,31 +6,23 @@ const SCOPE = 'user-read-private user-read-email'
 
 export function useSpotifyAuth() {
   const [token, setToken] = useState<string | null>(null)
-  const [userData, setUserData] = useState(null)
 
   const handleLogin = () => {
     const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`
-
-    fetch(authUrl)
-      .then((response) => {
-        if (response.status === 200) {
-          const hash = window.location.hash.substring(1)
-          const params = new URLSearchParams(hash)
-          const accessToken = params.get('access_token')
-
-          if (accessToken) {
-            setToken(accessToken)
-          } else {
-            console.error('Токен доступа не найден')
-          }
-        } else {
-          console.error('Ошибка авторизации')
-        }
-      })
-      .catch((error) => {
-        console.error('Ошибка сети:', error)
-      })
+    window.location.href = authUrl
+  }
+  const extractTokenFromURL = () => {
+    const hash = window.location.hash.substring(1)
+    const params = new URLSearchParams(hash)
+    return params.get('access_token')
   }
 
-  return { token, userData, handleLogin }
+  useEffect(() => {
+    const accessToken = extractTokenFromURL()
+    if (accessToken) {
+      setToken(accessToken)
+    }
+  })
+  console.log(token)
+  return { token, handleLogin }
 }

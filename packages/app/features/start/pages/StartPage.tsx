@@ -1,14 +1,18 @@
-import { useDynamicStyles, useTheme, useSpotifyAuth } from 'app/shared/hooks'
-import { handler } from '../../../../../apps/next/pages/api'
+import {
+  useDynamicStyles,
+  getDynamicStylesInput,
+  useTheme,
+  useSpotifyAuth,
+} from 'app/shared/hooks'
 import { Button, Typography, View, Image } from 'app/shared/components/ui'
 
 const BUTTON_WIDTH = 337
 const BUTTON_HEIGHT = 49
 const BUTTON_RADIUS = 25
-const IMAGE_SIZE = 100
 
 export function StartPage() {
   const { handleLogin } = useSpotifyAuth()
+  console.log(handleLogin)
   const theme = useTheme()
   const dynamicStyles = useDynamicStyles((theme) => ({
     mainButtonStyle: {
@@ -23,24 +27,16 @@ export function StartPage() {
     },
     pageContainer: {
       flex: 1,
-      backgroundImage:
-        'linear-gradient(to bottom, #121212 0%, #0F833B 60%, #121212 100%)',
-      alignItems: 'center',
-      gap: 20,
+      backgroundColor: theme.colors.background,
     },
     imageContainer: {
-      width: IMAGE_SIZE,
-      height: IMAGE_SIZE,
-      alignItems: 'center',
       flex: 1,
-      flexDirection: 'column-reverse',
     },
     imageStyle: {
-      width: IMAGE_SIZE,
-      height: IMAGE_SIZE,
-      sresizeMode: 'cover',
+      flex: 1,
     },
     buttonContainer: {
+      justifyContent: 'space-between',
       alignItems: 'center',
       flex: 1,
       flexDirection: 'column',
